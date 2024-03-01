@@ -129,3 +129,24 @@
   console.log(curriedSum(4)(5)(30)(20)(1))
 //   console.log(sum(5)(30)(20)(1)); // => 56
 
+
+// write a version with Function.prototype.apply
+  Function.prototype.curry = function(num_args) {
+    let that = this; // save the function that is calling on curry into "that"
+    let argList = [];
+  
+    return function _curry(single_arg) {
+      argList.push(single_arg);
+  
+      if (argList.length === num_args) {
+        // we are losing context to the window when we call _curry function style
+        // use that to preserve context and call sumThree for example (whatever was calling on curry)
+        return that(...argList);
+        // return that.apply();
+      } else {
+        return _curry;
+      }
+    }
+  };
+
+  // write a version with ... (the spread operator)
